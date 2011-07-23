@@ -1,0 +1,54 @@
+/*$Id: styles.css 7828 2009-01-13 18:27:03Z fisherc $
+/css/0.1/print/styles.css 
+(c)2006 - 2009 The New York Times Company */
+
+/* Global */
+
+#shell {
+  width: 973px !important;
+}
+
+#page {
+  *overflow: hidden !important;      
+}
+
+/* Times People */
+
+#TP_container,
+#TP_container_shadow {
+  position: absolute !important;
+}
+
+/* Sectionfront */
+
+.wideA .bColumn {
+  *width: 203px !important;
+  _width: 203px !important;
+}
+
+/* Homepage */
+
+#home #main,
+#home #classifiedsWidget #realEstate, 
+#home #classifiedsWidget #autos,
+#home #classifiedsWidget #jobMarket,
+#home #classifiedsWidget #allClassifieds {
+  *overflow: hidden !important;
+}
+
+#home .cColumn {
+  *width: 350px !important;
+  _width: 350px !important;
+}
+
+#home .cColumn .subColumn-2 div.last, 
+#home .cColumn .subColumn-2 .lastColumn {
+  *width: 176px !important;
+  _width: 176px !important;
+}
+
+#home .wideA .bColumn {
+  *width: 173px !important;
+  _width: 173px !important;
+}
+ 

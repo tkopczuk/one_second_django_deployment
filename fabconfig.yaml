@@ -12,40 +12,40 @@ default:
 
   bundle_and_minify:
     static/js/pack.js:
-      - static/js/722219967.js,
-      - static/js/activities.build.js,
-      - static/js/all.js,
-      - static/js/beacon.js,
-      - static/js/bottom.js,
-      - static/js/BrightcoveExperiences_all.js,
-      - static/js/chartbeat.js,
-      - static/js/cm8_detect_ad.js,
-      - static/js/controller_v1.1.js,
-      - static/js/embed3.js,
-      - static/js/gw.js,
-      - static/js/meter.js,
-      - static/js/mtr.js,
-      - static/js/NYTInlineEmbed.js,
-      - static/js/production.js,
-      - static/js/recommendationsModule.js,
-      - static/js/revenuescience.js,
-      - static/js/show_ads.js,
-      - static/js/sitewide.js,
-      - static/js/swfobject1.1.js,
+      - static/js/722219967.js
+      - static/js/activities.build.js
+      - static/js/all.js
+      - static/js/beacon.js
+      - static/js/bottom.js
+      - static/js/BrightcoveExperiences_all.js
+      - static/js/chartbeat.js
+      - static/js/cm8_detect_ad.js
+      - static/js/controller_v1.1.js
+      - static/js/embed3.js
+      - static/js/gw.js
+      - static/js/meter.js
+      - static/js/mtr.js
+      - static/js/NYTInlineEmbed.js
+      - static/js/production.js
+      - static/js/recommendationsModule.js
+      - static/js/revenuescience.js
+      - static/js/show_ads.js
+      - static/js/sitewide.js
+      - static/js/swfobject1.1.js
       - static/js/tabset.js
     static/js/pack2.js:
-      - static/js/toolbar.build.min.js,
-      - static/js/top.js,
-      - static/js/trackingTags_v1.1.js,
-      - static/js/wtbase.js,
-      - static/js/wtid.js,
+      - static/js/toolbar.build.min.js
+      - static/js/top.js
+      - static/js/trackingTags_v1.1.js
+      - static/js/wtbase.js
+      - static/js/wtid.js
       - static/js/wtinit.js
     static/css/pack.css:
-      - static/css/homepage.css,
-      - static/css/newsletterPrefs.css,
-      - static/css/styles(1).css,
-      - static/css/styles(2).css,
-      - static/css/styles.css,
+      - static/css/homepage.css
+      - static/css/newsletterPrefs.css
+      - static/css/styles(1).css
+      - static/css/styles(2).css
+      - static/css/styles.css
       - static/css/twittertool.css
 app-servers:
   hosts:

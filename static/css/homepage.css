@@ -1,0 +1,63 @@
+@import url("/css/app/facebook/base.css");
+
+#facebookContainer {
+	width: 187px !important;
+	margin-top: -26px;
+	margin-bottom: -1px;
+	background-color: #fff;
+	border: 1px solid #ccc;
+	margin-left:-1px !important;
+}
+#facebookContainer .actor,
+#facebookContainer p {
+	font-size:11px;
+	line-height:14px;
+}
+
+#facebookContainer .popular {
+  font-size:12px;
+}
+
+#facebookContainer .caption {
+	margin-top: 10px;
+	margin-bottom: 5px;
+}
+
+.fbPrivacy {
+	font-family: arial, helvetica, sans-serif;
+	color: #777;
+	font-size: 11px;
+	line-height: 14px;
+	border-bottom: 1px solid #ccc;
+	padding-bottom: 10px;
+	margin-bottom: 10px;
+}
+
+#cColumnTopSpanRegion 
+.singleRuleDivider  {
+	margin-top: 0 !important;
+}
+
+.fb_button {
+  width:100%;
+}
+
+.fb_button_text {
+  text-align:center;
+  padding-right:0px !important;
+  padding-left:0px !important; 
+}
+
+#facebookContainer .popular {
+  background:url("/images/misc/bullet4x4.gif") no-repeat scroll left 0.45em transparent;
+  padding:0 0 0 8px;
+}
+
+#fbInfo {
+  display:block;
+}
+
+#facebookContainer.loggedIn #fbInfo {
+  margin-top:-1.1em;
+  margin-bottom:1em;
+}

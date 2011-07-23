@@ -1,0 +1,697 @@
+/*
+$Id: styles.css 66667 2011-05-04 23:27:22Z lpierfelice $
+(c)2006 - 2011 The New York Times Company 
+*/
+html body {
+  margin-left:0;
+  margin-right:0
+}
+
+#TP_container {
+  text-align:left;
+  background-image:none;
+  position:absolute;
+  top:0;
+  left:-1px;
+  right:0px;
+  *width:100%; 
+  height:34px;
+  z-index:10000;
+  background:#f2f2f2;
+}
+
+/*#TP_container * {
+  font-family:Arial, Helvetica, sans-serif !important;
+}*/
+
+#TP_container a,
+#TP_container p,
+#TP_container div,
+#TP_container span,
+#TP_container td,
+#TP_container h4 {
+  font-family:Arial, Helvetica, sans-serif !important;
+  font-size:12px;
+}
+
+#TP_container h4 {
+  line-height:12px;
+}
+
+#TP_container table {
+  border-collapse:collapse;
+}
+
+#TP_container img {
+  vertical-align:middle;
+}
+
+#TP_container a img {
+  border:none;
+}
+
+#TP_container p, 
+#TP_container h1, 
+#TP_container h2, 
+#TP_container h3, 
+#TP_container h4, 
+#TP_container h5, 
+#TP_container h6 {
+  margin:0;
+}
+
+.TP_object {
+  font-weight:bold;
+  overflow:hidden;
+}
+
+.TP_toolbar_item {
+  height:100%;
+  position:absolute;
+  top:0px;
+  padding:5px;
+  height:24px;
+  border-right:1px solid white;
+  border-left:1px solid #b2b2b2;
+  background-color: #f2f2f2;
+}
+
+/*.TP_toolbar_item * {
+  font-size:12px;
+}*/
+
+.TP_toolbar_item_content {
+  position:relative;
+  z-index:10500;
+  cursor:pointer;
+}
+
+#TP_left_panel {
+  width:176px;
+  z-index:10010;
+}
+
+#TP_feed {
+  left:188px;
+  right:202px;
+  padding:0;
+  height:34px;
+  z-index:10000;
+}
+
+#TP_right_panel {
+  width:160px;
+  right:30px;
+  z-index:10020;
+}
+
+#TP_latest_item {
+  margin:0 30px 0 5px;
+}
+
+#TP_spinner {
+  position:absolute;
+  top:6px;
+  right:-30px;
+}
+
+#TP_minimize_button {
+  color:#808080;
+  cursor:pointer;
+  font-size:22px;
+  text-align:center;
+  width:18px;
+  line-height:24px !important;
+  right:0;
+  background:url(/images/apps/timespeople/toolbar/1.5/close.gif) no-repeat 55% 50%;
+}
+
+#TP_container .TP_leftcap span {
+  font-size:11px !important;
+}
+
+.TP_leftcap,
+.TP_bevel,
+.TP_rightcap {
+  float:left;
+  display:inline;
+  height:21px;
+  border:0;
+  padding:0;
+  margin:0;
+  background-color:transparent;
+  background-repeat:no-repeat;
+  *width: auto;
+  *overflow: visible;
+  _width: auto; 
+  _overflow: visible;
+}
+
+.TP_leftcap:disabled,
+.TP_bevel:disabled,
+.TP_rightcap:disabled,
+.TP_disabled {
+  opacity: 0.5;
+  -moz-opacity: 0.5;
+  filter:alpha(opacity=50);
+  cursor: default;
+}
+
+.TP_leftcap::-moz-focus-inner,
+.TP_bevel::-moz-focus-inner,
+.TP_rightcap::-moz-focus-inner {
+  padding:0;
+  border:0
+}
+
+.TP_leftcap:focus,
+.TP_bevel:focus,
+.TP_rightcap:focus {
+  outline:1px dotted;
+}
+
+
+.TP_leftcap span,
+.TP_bevel span,
+.TP_rightcap span {
+  height:21px;
+  display:block;
+  line-height:21px;
+  color:#333;
+  background-repeat:no-repeat;
+}
+
+.TP_leftcap {
+  padding:0;
+  background-image:none; 
+}
+
+.TP_leftcap span {
+  padding-left:8px;
+  padding-right:0px;
+  background-image: url(/images/apps/timespeople/buttons/leftcap.png);
+  background-position: left center;
+}
+
+.TP_split_button .TP_leftcap span {
+  padding-right:7px;
+}
+
+.TP_bevel span {
+  padding-left:3px;
+  background-image: url(/images/apps/timespeople/buttons/bevel.png);
+  background-position: left center;
+  _height:22px;
+  _margin-top: -1px;
+  _background-position-y:1px;
+}
+
+.TP_rightcap  {
+  padding-right:8px;
+  background-image: url(/images/apps/timespeople/buttons/rightcap.png);
+  background-position: right center;
+  _background-position-y:0%;
+}
+
+#TP_toolbar_annotate_btn {
+  padding-right:4px;
+}
+
+#TP_toolbar_annotate_btn img {
+  margin-top:3px;
+}
+
+#TP_restore_button {
+  display: none !important;
+}
+
+#TP_container a,
+#TP_restore_button a {
+  color:#004276;
+  text-decoration:none;
+  cursor:pointer;
+}
+
+#TP_restore_button a {
+  font-size:12px;
+}
+
+#TP_container a:hover {
+  color:#004276;
+  text-decoration:underline;
+}
+#TP_container h4,
+#TP_container .TP_header,
+#TP_container .TP_header a {
+  color:#333;
+  font-size:12px;
+}
+
+#TP_fixed_toolbar {
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  z-index: 100000002;
+}
+
+#TP_container_shadow_wrap {
+  position:absolute;
+  top:30px;
+  left:0;
+  width:100%;
+  z-index :9999;
+  overflow:hidden;
+  height:14px;
+  font-size:0;
+}  
+
+#TP_container_shadow {
+  position:absolute;
+  top:0;
+  left:0;
+  width:100%;
+  z-index :9999;
+  font-size:0;
+  height:4px;
+  -moz-box-shadow:2px 2px 7px #000;
+  -webkit-box-shadow:2px 2px 7px #000;
+  box-shadow:2px 2px 7px #000;
+  border-right:0 !important;
+  border-left:0 !important;
+  -moz-border-radius-bottomleft:0;
+  -moz-border-radius-bottomright:0;
+  /* ie */
+  -ms-filter: "progid:DXImageTransform.Microsoft.Shadow(Color=#444444, direction=180, strength=5 )";
+  filter: progid:DXImageTransform.Microsoft.Shadow(Color=#444444, direction=180, strength=5 );
+  background-color: black\9;
+  /* end ie */
+}
+
+#TP_inner {
+  max-width:1100px;
+  border-left:1px solid white;
+  border-right:1px solid #b2b2b2;
+  margin:0 auto;
+  position:relative;
+  height:100%;
+}
+
+#TP_container .TP_groove {
+  width:40px;
+  height:100%;
+  margin:0 auto;
+  background-image:url('/images/apps/timespeople/toolbar/1.5/handle.gif');
+  background-repeat:no-repeat;
+  background-position:50%;
+}
+
+#TP_container .TP_user .TP_following_count {
+  color:#808080;
+  font-size:11px;
+  line-height:12px;
+  font-weight:normal;
+}
+
+#TP_container .TP_user .TP_following_count a,
+#TP_container .TP_user .TP_following_count a:visited {
+  color:#808080;
+}
+
+#TP_container .TP_user .TP_following_count a:hover {
+  color:#004276;
+}
+
+#TP_container, #TP_feed {
+  font-family:Arial, Helvetica, sans-serif;
+  color:#808080;
+}
+
+#TP_container .TP_drawer_tab {
+  display:none;
+  position:absolute;
+  top:-1px;
+  right:-1px;
+  left:0;
+  *width:100%;
+  color:#fff;
+  background-color:#4d4d4d;
+  height:40px;
+  padding:3px 0;
+  z-index:10600;
+  cursor:pointer;
+}
+
+#TP_container .TP_drawer_tab h4 {
+  padding:9px 6px 6px;
+  color:#fff;
+}
+
+#TP_container .TP_user .TP_avatar {
+  width:24px;
+  height:24px;
+  overflow:hidden;
+  float:left;
+  display:inline;
+  margin-right:6px;
+  margin-bottom:6px;
+}
+
+#TP_feed span {
+  vertical-align:middle;
+}
+
+.open .TP_drawer_content {
+  background-color:#f2f2f2;
+}
+
+.TP_drawer {
+  position: absolute;
+  top: 0;
+  left:0;
+  right:0;
+  _right:-5px;
+  z-index: 10600;
+}
+
+.TP_teaser {
+  top:34px;
+  background-color:transparent;
+  z-index:10100;
+}
+
+.tease {
+  position:absolute;
+  height: 24px;
+  left:-1px;
+  right:-1px;
+}
+
+.TP_drawer_tooltip {
+  display:none;
+  background-color:white;
+  position:absolute;
+  top:0;
+  left:0;
+  right:-1px;
+  *width:100%;
+  height:58px;
+  z-index:10200;
+}
+
+/*.tease .TP_drawer_tooltip {
+  position: relative;
+  top: -34px;
+  padding-top:42px;
+}*/
+
+.TP_drawer_tooltip_inner {
+  color:#666;
+  text-align:center;
+  font-size:11px !important;
+  background-color:white;
+  border-top: 1px solid #e6e6e6;
+  border-bottom: 1px solid #1e4782;
+  height:14px;
+  padding:2px 0 0;
+  height:16px;
+  position:absolute;
+  right:0;
+  bottom:0;
+  left:0;
+}
+
+.tease .TP_drawer_tooltip {
+  display:block;
+}
+
+.open {
+  height:100%;
+  padding: 0 0 15px;
+  background:none;
+  border:none;
+/*  padding:0;*/
+  margin:0;
+  top:34px;
+}
+
+.shadow {
+  -webkit-box-shadow:2px 2px 7px #000;
+  -moz-box-shadow:2px 2px 7px #000;
+  box-shadow:2px 2px 7px #000;
+  /* ie */
+  -ms-filter: "progid:DXImageTransform.Microsoft.Shadow(Color=#444444, direction=135, strength=5 )";
+  filter: progid:DXImageTransform.Microsoft.Shadow(Color=#444444, direction=135, strength=5 );
+  border-left:1px solid #ccc\9;
+  background-color: white\9;
+  /* end ie */
+}
+
+.border-shadow {
+  left: -2px;
+  right: -6px;
+  border-bottom:5px solid;
+  border-right:5px solid;
+  border-left:2px solid;
+  border-color:transparent;
+  -moz-border-radius:6px;
+  -moz-border-left-colors:   rgba(5,5,5,0.2) rgba(5,5,5, 0.4);
+  -moz-border-right-colors:  rgba(5,5,5,0.1) rgba(5,5,5,0.2)  rgba(5,5,5,0.4) rgba(5,5,5, 0.6)  rgba(5,5,5, 0.7);
+  -moz-border-bottom-colors: rgba(5,5,5,0.1) rgba(5,5,5,0.2)  rgba(5,5,5,0.4) rgba(5,5,5, 0.6)  rgba(5,5,5, 0.7);
+}
+
+.TP_drawer_content {
+  display:none;
+  padding:5px;
+}
+
+.open .TP_drawer_content {
+  position:absolute;
+  top: 11px;
+  bottom:15px;
+  left:0;
+  right:0;
+  overflow-y:auto;
+  overflow-x:hidden;
+  display:block;
+}
+
+.TP_timestamp_cell {
+  color:#808080;
+  text-transform:uppercase;
+  font-size:10px;
+  text-align:right;
+  padding-right:0px;
+  padding-top:12px;
+  width:60px;
+  font-size:10px !important;
+  white-space:nowrap;
+}
+
+.TP_feed_content {
+  table-layout:fixed;
+  height:24px;
+}
+
+.open .TP_feed_content {
+  width:100%;
+  margin-right:0;
+  height:auto;
+}
+
+.open .TP_feed_content td {
+  height:34px;
+  border-bottom:1px solid #ccc;
+  border-top:1px solid #ccc;
+}
+
+.TP_feed_content td {
+  background:none;
+  font-size:12px;
+  vertical-align:top;
+  padding:9px 6px 0;
+}
+
+
+#TP_page_activity_feed .TP_feed_content td,
+#TP_page_activity_feed .TP_feed_content span,
+#TP_page_activity_feed .TP_feed_content a {
+  white-space: normal;
+}
+
+#TP_page_activity_feed {
+  margin-top:10px;
+}
+
+.TP_feed_content .TP_avatar_cell {
+  padding-left:0;
+  padding-top:5px;
+}
+
+.TP_avatar_cell {
+  text-align:right;
+  width:24px;
+  padding-right:0 !important;
+}
+
+.TP_avatar_cell .TP_avatar {
+  width:24px;
+  height:24px;
+}
+
+.TP_object_cell {
+  width:100%;
+  padding-top:12px;
+  white-space:nowrap;
+}
+
+.open .TP_object_cell {
+  white-space:normal;
+}
+
+.TP_feed_handle {
+  display:none;
+    position:absolute;
+    bottom:0;
+    z-index:1000;
+    width:100%;
+    height:15px;
+    background-color:#cacbca;
+    cursor:ns-resize;
+}
+
+.open .TP_feed_handle {
+  display:block;
+}
+
+
+.TP_drawer_toggle,
+.TP_drawer_toggle_up {
+  position:absolute;
+  right:0px;
+  top:6px;
+  z-index:12000;
+  width:28px;
+  height:21px;
+  background-repeat:no-repeat;
+  background-position:center;
+  background-image:url('/images/apps/timespeople/toolbar/1.5/toggle.gif');
+  cursor:pointer;
+}
+
+.TP_drawer_toggle_up {
+  background-image:url('/images/apps/timespeople/arrow-up.gif');
+}
+
+.TP_tile_ad {
+  position:absolute;
+  top:7px;
+  right:30px;
+}
+
+#TP_right_panel .TP_tile_ad {
+  left:7px;
+}
+
+#TP_container img { -ms-interpolation-mode:bicubic; }
+
+#TP_right_panel .TP_drawer {
+  left: auto !important;
+  width: 285px;
+}
+
+#TP_right_panel .TP_drawer_tab {
+  left: auto !important;
+  width: 286px;
+}
+
+.TP_right_button {
+  margin:5px 0 10px;
+  text-align:right;
+}
+
+#TP_container .TP_toolbar_link {
+  font-size:11px;
+}
+.TP_toolbar_item_highlight {
+  background-color:white;
+}
+
+.TP_annotation {
+  color:#333;
+  margin: 4px 0 5px 0 !important;
+}
+
+.TP_annotation_hdl {
+  margin-bottom: 10px;
+}
+
+#TP_annotation_form {
+  width:99%;
+  height:50px;
+  margin:6px 0;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 11px;
+  color: #333;
+  overflow:auto;
+}
+
+.TP_runaround_left {
+  float:left;
+  margin: 0 5px 5px 0;
+}
+
+#TP_toolbar_buttons {
+  position:absolute;
+  left:5px;
+  top:2px;
+}
+
+#TP_get_started_button {
+  position:absolute;
+  left:5px;
+  top:2px;
+}
+
+.TP_toolbar_middle {
+  padding-top:6px;
+}
+
+#TP_page_activity_count_button {
+  position:absolute;
+  right:0px;
+  top:2px;
+}
+
+.TP_capsule_button {
+  padding: 4px 18px 4px 7px;
+  background-color: #b1b1b1;
+  color:white;
+  border-radius:10px;
+  -moz-border-radius:10px;
+  -webkit-border-radius:10px;
+  font-weight:bold;
+  line-height:11px;
+}
+
+/* IE7 */
+html>body .TP_capsule_button {
+  *background:url(/images/apps/timespeople/buttons/count_rightcap.png) no-repeat right center;
+}
+
+html>body .TP_capsule_button span {
+  *padding:9px;
+  *margin-right:-8px;
+  *background:url(/images/apps/timespeople/buttons/count_leftcap.png) no-repeat left center;
+}
+
+.opposingFloatControl .element1 { float: left; }
+.opposingFloatControl .element2 { float: right; }
+
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+  /* Safari and Google Chrome only - fix margins */
+  button span {
+    margin-top: -1px;
+  }
+}
+

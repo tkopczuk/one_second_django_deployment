@@ -1,0 +1,96 @@
+/* $Id: twittertool.css 43610 2010-08-19 20:16:11Z santep $
+* /css/0.1/screen/common/modules/articletools.css
+* (c)2006 - 2008 The New York Times Company */ 
+
+@import url(/css/0.1/screen/common/forms.css);
+
+#twitter_item {
+  position:relative;
+  line-height:1.4em;
+  list-style:none;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+td #twitter_item {
+  text-transform:uppercase;
+}
+
+#twitter_button {
+  cursor:pointer;
+  background-image:url(/images/article/functions/twitter.gif);
+  background-repeat:no-repeat;
+  padding:0 0 3px 20px;
+  background-position:-1px -1px;
+}
+
+.entry-tools #twitter_button {
+  display:block;
+}
+
+#twitter_panel {
+  background-color:white;
+  position:absolute;
+  right:-6px;
+  top:-2px;
+  padding:10px;
+  width:230px;
+  border: 1px solid #EAE8E9;
+  text-align:left;
+  z-index:10;
+}
+
+#twitter_panel a {
+ padding-left:0 !important;
+}
+
+#twitter_form button {
+  float:right;
+}
+
+#twitter_textarea {
+  font-size:11px;
+  font-family: Arial, Helvetica, sans-serif;
+  width:220px;
+  padding:5px;
+  height:50px;
+  margin-bottom:4px;
+  color:#333;
+}
+
+#twitter_spinner {
+  position:absolute;
+  top:60px;
+  left:110px;
+}
+
+#twitter_char_count {
+  text-transform:none;
+  font-family: Arial, Helvetica, sans-serif;
+  color:#666;
+  float:left;
+}
+
+#twitter_form_title {
+  padding:1px 0 1px 22px;
+  background: url(/images/apps/timespeople/twitter.gif) no-repeat left center;
+}
+
+#twitter_close {
+  cursor:pointer;
+  padding-right: 18px;
+  background: url(/images/article/comments/buttons/close_window.gif) no-repeat right center;
+}
+
+#twitter_panel .singleRule {
+ margin: 5px 0 10px;
+ border-color: #EAE8E9;
+}
+
+.opposingFloatControl .element1 { float: left; }
+.opposingFloatControl .element2 { float: right; }
+
+ .sponsorLabel {
+   font-size:9px;
+   color:#666;
+   text-transform:uppercase;
+ }
