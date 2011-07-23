@@ -1,0 +1,96 @@
+default:
+  shell: /bin/bash -l -c
+  user: root
+  run_daemons_as_user: pony
+  path: /sites/production/blog-post-test
+  django_project_name: sample_project
+  database_name: askthepony
+  database_user: askthepony
+  database_password: askthepony
+  s3_bucket: blog-post-test
+  static_relative_dir: static
+
+  bundle_and_minify:
+    static/js/pack.js:
+      - static/js/722219967.js,
+      - static/js/activities.build.js,
+      - static/js/all.js,
+      - static/js/beacon.js,
+      - static/js/bottom.js,
+      - static/js/BrightcoveExperiences_all.js,
+      - static/js/chartbeat.js,
+      - static/js/cm8_detect_ad.js,
+      - static/js/controller_v1.1.js,
+      - static/js/embed3.js,
+      - static/js/gw.js,
+      - static/js/meter.js,
+      - static/js/mtr.js,
+      - static/js/NYTInlineEmbed.js,
+      - static/js/production.js,
+      - static/js/recommendationsModule.js,
+      - static/js/revenuescience.js,
+      - static/js/show_ads.js,
+      - static/js/sitewide.js,
+      - static/js/swfobject1.1.js,
+      - static/js/tabset.js
+    static/js/pack2.js:
+      - static/js/toolbar.build.min.js,
+      - static/js/top.js,
+      - static/js/trackingTags_v1.1.js,
+      - static/js/wtbase.js,
+      - static/js/wtid.js,
+      - static/js/wtinit.js
+    static/css/pack.css:
+      - static/css/homepage.css,
+      - static/css/newsletterPrefs.css,
+      - static/css/styles(1).css,
+      - static/css/styles(2).css,
+      - static/css/styles.css,
+      - static/css/twittertool.css
+app-servers:
+  hosts:
+    - 192.168.2.46
+  configs:
+    conf/supervisord.conf: "{path}/conf/supervisord.conf"
+    conf/nginx.conf: "{path}/conf/nginx.conf"
+    conf/gunicorn.conf: "{path}/conf/gunicorn.conf"
+  installation:
+    - ["apting additional packages", "apt-get -y -qq install zlib1g-dev libssl-dev libpcre++-dev postgresql-client libpq-dev", False]
+    - ["installing supervisord and gunicorn", "bin/pip -E -q . install --upgrade supervisor gunicorn", False]
+    - ["installing nginx", "mkdir -p {path}/tmp; cd {path}/tmp; wget -nv http://nginx.org/download/nginx-1.0.5.tar.gz; tar xf nginx-1.0.5.tar.gz; cd nginx-1.0.5; ./configure --prefix={path} --with-http_ssl_module --http-client-body-temp-path={path}/tmp/nginx_body --http-proxy-temp-path={path}/tmp/nginx_proxy --http-fastcgi-temp-path={path}/tmp/nginx_fcgi --http-uwsgi-temp-path={path}/tmp/uwsgi_temp --http-scgi-temp-path={path}/tmp/scgi_temp >> {path}/logs/installation.log; make -j2 >> {path}/logs/installation.log; make install >> {path}/logs/installation.log", False]
+    - "rm -rf {path}/tmp/nginx-*"
+  post_deploy: []
+  cold_start:
+    - ["starting Supervisor daemon", "killall nginx; killall supervisord; sleep 2; bin/supervisord -c conf/supervisord.conf"]
+  post_cold_start: []
+  start:
+    - ["starting nginx", "bin/supervisorctl -c {path}/conf/supervisord.conf start nginx"]
+    - ["starting gunicorn", "bin/supervisorctl -c {path}/conf/supervisord.conf start gunicorn"]
+  stop:
+    - ["stopping gunicorn", "bin/supervisorctl -c {path}/conf/supervisord.conf stop gunicorn"]
+    - ["stopping nginx", "bin/supervisorctl -c {path}/conf/supervisord.conf stop nginx"]
+
+db-servers:
+  hosts:
+    - 192.168.2.67
+  configs:
+    conf/pg_hba.conf: "/etc/postgresql/8.4/main/pg_hba.conf"
+    conf/postgresql_8.4.conf: "/etc/postgresql/8.4/main/postgresql.conf"
+  installation:
+    - ["apting additional packages", "apt-get -y -qq install postgresql libpq-dev", False]
+  post_deploy:
+    - ["setting proper permissions of configuration files", "chown -R postgres /etc/postgresql", False]
+  cold_start:
+    - ["starting PostgreSQL", "/etc/init.d/postgresql restart"]
+  post_cold_start:
+    - ["creating the database and user", "echo \"CREATE DATABASE {database_name};CREATE USER {database_user} WITH PASSWORD '{database_password}';GRANT ALL PRIVILEGES ON DATABASE {database_name} TO {database_user};\" > /tmp/create_db.sql; su - postgres -c \"psql -f /tmp/create_db.sql\"", False]
+    - ["ensuring removal of SQL temporary files", "rm -rf /tmp/create_db.sql"]
+  start:
+    - ["starting PostgreSQL", "/etc/init.d/postgresql start"]
+  stop:
+    - ["stopping PostgreSQL", "/etc/init.d/postgresql stop"]
+#hostinfo:
+#  192.168.2.46:
+#    user: askthepony
+#    additional_configs:
+#      etc/supervisord.conf: /temp/supervisord.conf
