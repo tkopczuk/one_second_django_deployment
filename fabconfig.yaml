@@ -56,7 +56,7 @@ app-servers:
     conf/gunicorn.conf: "{path}/conf/gunicorn.conf"
   installation:
     - ["apting additional packages", "apt-get -y -qq install zlib1g-dev libssl-dev libpcre++-dev postgresql-client libpq-dev", False]
-    - ["installing supervisord and gunicorn", "bin/pip -E -q . install --upgrade supervisor gunicorn", False]
+    - ["installing supervisord and gunicorn", "bin/pip -E . -q install --upgrade supervisor gunicorn", False]
     - ["installing nginx", "mkdir -p {path}/tmp; cd {path}/tmp; wget -nv http://nginx.org/download/nginx-1.0.5.tar.gz; tar xf nginx-1.0.5.tar.gz; cd nginx-1.0.5; ./configure --prefix={path} --with-http_ssl_module --http-client-body-temp-path={path}/tmp/nginx_body --http-proxy-temp-path={path}/tmp/nginx_proxy --http-fastcgi-temp-path={path}/tmp/nginx_fcgi --http-uwsgi-temp-path={path}/tmp/uwsgi_temp --http-scgi-temp-path={path}/tmp/scgi_temp >> {path}/logs/installation.log; make -j2 >> {path}/logs/installation.log; make install >> {path}/logs/installation.log", False]
     - "rm -rf {path}/tmp/nginx-*"
   post_deploy: []
@@ -83,7 +83,7 @@ db-servers:
   cold_start:
     - ["starting PostgreSQL", "/etc/init.d/postgresql restart"]
   post_cold_start:
-    - ["creating the database and user", "echo \"CREATE DATABASE {database_name};CREATE USER {database_user} WITH PASSWORD '{database_password}';GRANT ALL PRIVILEGES ON DATABASE {database_name} TO {database_user};\" > /tmp/create_db.sql; su - postgres -c \"psql -f /tmp/create_db.sql\"", False]
+    - ["creating the database and user", "echo \"CREATE DATABASE {database_name} ENCODING 'UTF8';CREATE USER {database_user} WITH PASSWORD '{database_password}';GRANT ALL PRIVILEGES ON DATABASE {database_name} TO {database_user};\" > /tmp/create_db.sql; su - postgres -c \"psql -f /tmp/create_db.sql\"", False]
     - ["ensuring removal of SQL temporary files", "rm -rf /tmp/create_db.sql"]
   start:
     - ["starting PostgreSQL", "/etc/init.d/postgresql start"]
