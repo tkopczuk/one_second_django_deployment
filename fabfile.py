@@ -21,6 +21,9 @@ env.config_file = 'fabconfig.yaml'
 env.format = True
 env.release = time.strftime('%Y%m%d%H%M%S')
 
+env.use_s3 = False
+env.optimize_images = False
+
 ALWAYS_UPDATE = True
 UTILS_DIR = '/usr/local/bin/'
 
@@ -38,70 +41,103 @@ def better_put(local_path, remote_path, mode=None):
 
 @task
 def deploy_media(): 
-	conn = S3Connection(S3_API_KEY, S3_SECRET) 
-	bucket = conn.get_bucket(env.config.default['s3_bucket']) 
+	def get_file_base_and_extension(filename):
+		if filename.count('.'):
+			return '.'.join(filename.split('.')[:-1]), '.%s' % filename.split('.')[-1]
+		else:
+			return filename, ''
+
 	# Concatenate jquery libraries
 	for outpath in env.config.default['bundle_and_minify']:
 		with open(outpath, 'w') as outfile:
 			for libpath in env.config.default['bundle_and_minify'][outpath]:
 				with open(libpath, 'r') as libfile:
 					outfile.write(libfile.read())
+	
+	# Open S3 connection if desired 
+	if env.use_s3:
+		conn = S3Connection(S3_API_KEY, S3_SECRET) 
+		bucket = conn.get_bucket(env.config.default['s3_bucket'])
+	else:
+		conn, bucket = None, None 
+
+	interesting_extensions = set(['.js', '.css'])
+	if env.optimize_images:
+		interesting_extensions.update(set(['.png', '.jpg', '.jpeg']))
+
 	# Minify, gzip and upload
-	for root, dirs, files in os.walk(env.config.default['static_relative_dir']):
-		for f in files: 
-			if f.endswith('.swp') or f.startswith('.') or f.endswith('.gz') or f.endswith('.minified'): 
-				continue 
-			s3_filename = os.path.join(root, f) 
-			print s3_filename
-			filename = root + '/' + f 
-			modify_time = os.stat(filename)[ST_MTIME] 
+	dir_list = list(os.walk(env.config.default['static_relative_dir']))
+	files_set = set()
+	for directory in dir_list:
+		files_set.update(set([ \
+			get_file_base_and_extension(os.path.join(directory[0], d)) \
+				for d in directory[2] \
+					if get_file_base_and_extension(d)[1] in interesting_extensions and not get_file_base_and_extension(d)[0].count('.min') \
+		]))
+
+	files_no = len(files_set)
+	for index, (file_basename, file_extension) in enumerate(files_set):
+		print green("%.1f%% done (%d/%d)" % ((index+1.)*100./files_no, index+1, files_no))
+		original_path = '%s%s' % (file_basename, file_extension)
+		minified_path = '%s.min%s' % (file_basename, file_extension)
+
+		success = False
+		gzipped = False
+
+		if file_extension in ['.png']:
+			local('pngcrush -rem gAMA -rem cHRM -rem iCCP -rem sRGB -rem alla -rem text -reduce -brute "%s" "%s"'%(original_path, minified_path))
+			try:
+				print yellow('\tcompressed %d'%os.path.getsize(original_path)+" => %d"%os.path.getsize(minified_path)+ " => %d%%" % (os.path.getsize(minified_path) * 100 / os.path.getsize(original_path)))
+				success = True
+			except OSError:
+				print red("File %s is not a PNG file." % original_path)
+		elif file_extension in ['.jpg', '.jpeg']:
+			local('jpegtran -outfile "%s" -optimize -copy none "%s"'%(minified_path, original_path))
+			try:
+				print yellow('\tcompressed %d'%os.path.getsize(original_path)+" => %d"%os.path.getsize(minified_path)+ " => %d%%" % (os.path.getsize(minified_path) * 100 / os.path.getsize(original_path)))
+				success = True
+			except OSError:
+				print red("File %s is not a JPG file." % original_path)
+		elif file_extension in ['.js', '.css']:
+			local('java -jar %s -v -o "%s" --charset utf-8 "%s"'%(os.path.join(UTILS_DIR, 'yuicompressor-2.4.6.jar'), minified_path, original_path))
+			try:
+				indata = open(minified_path, "rb")
+				outdata = gzip.open(minified_path + '.gz', 'wb')
+				outdata.writelines(indata)
+				indata.close()
+				outdata.close()
+				try:
+					ratio = (os.path.getsize(minified_path+'.gz') * 100 / os.path.getsize(original_path))
+				except ZeroDivisionError:
+					ratio = 100
+				print yellow('\tcompressed %d'%os.path.getsize(original_path)+" => %d"%os.path.getsize(minified_path)+ " => %d"%os.path.getsize(minified_path+'.gz') + " => gzipped %d%%" % ratio)
+				gzipped = True
+				success = True
+			except OSError:
+				import traceback
+				traceback.print_exc()
+				print red("File %s triggered a parsing error." % original_path)
+		# Successful S3 connection and minify
+		if bucket and success:
+			modify_time = os.stat(original_path)[ST_MTIME] 
 			key = None			
 			if not ALWAYS_UPDATE:
-				key = bucket.get_key(s3_filename) 
+				key = bucket.get_key(minified_path) 
 			if key is None: 
 				key = Key(bucket) 
-				key.key = s3_filename 
+				key.key = minified_path 
 			if (key.last_modified is None or time.localtime(modify_time) > time.strptime(key.last_modified, '%a, %d %b %Y %H:%M:%S %Z')) or ALWAYS_UPDATE: 
-				print filename,"->",s3_filename
-
 				headers = {'Cache-Control': 'public,max-age=604800'}
-				mime = mimetypes.guess_type(s3_filename)[0]
+				mime = mimetypes.guess_type(minified_path)[0]
 				if mime:
 					headers["Content-Type"] = mime
-				if filename.lower().endswith('.png'):
-					new_filename = filename+".minified"
-					local('pngcrush -e .png.minified -rem gAMA -rem cHRM -rem iCCP -rem sRGB -rem alla -rem text -reduce -brute "%s"'%(filename))
-					print '\tcompressed', os.path.getsize(filename),"=>",os.path.getsize(new_filename), "=>", "%d%%" % (os.path.getsize(new_filename) * 100 / os.path.getsize(filename))
-					key.set_contents_from_filename(new_filename, policy='public-read', headers=headers)
-					os.remove(new_filename)
-				elif filename.lower().endswith('.jpg') or filename.lower().endswith('.jpeg'):
-					new_filename = filename+".minified"
-					local('jpegtran -outfile "%s" -optimize -copy none "%s"'%(new_filename, filename))
-					print '\tcompressed', os.path.getsize(filename),"=>",os.path.getsize(new_filename), "=>", "%d%%" % (os.path.getsize(new_filename) * 100 / os.path.getsize(filename))
-					key.set_contents_from_filename(new_filename, policy='public-read', headers=headers)
-					os.remove(new_filename)
-				elif filename.lower().endswith('.js') or filename.lower().endswith('.css'):
-					new_filename = filename+".minified"
-					local('java -jar %s -v -o "%s" --charset utf-8 "%s"'%(os.path.join(UTILS_DIR, 'yuicompressor-2.4.6.jar'), new_filename, filename))
-					indata = open(new_filename, "rb")
-					outdata = gzip.open(filename + '.gz', 'wb')
-					outdata.writelines(indata)
-					indata.close()
-					outdata.close()
-
-					try:
-						ratio = (os.path.getsize(filename+'.gz') * 100 / os.path.getsize(filename))
-					except:
-						ratio = 100
-
-					print '\tcompressed', os.path.getsize(filename),"=>",os.path.getsize(new_filename), "=>", os.path.getsize(filename+'.gz'), "%d%%" % ratio
+				if gzipped:
 					headers.update({'Content-Encoding': 'gzip'})
-					key.set_contents_from_filename(filename + '.gz', policy='public-read', headers=headers)
-					os.remove(filename + '.gz')
-					os.remove(new_filename)
+					key.set_contents_from_filename(minified_path + '.gz', policy='public-read', headers=headers)
+					os.remove(minified_path + '.gz')
 				else:
-					key.set_contents_from_filename(filename, policy='public-read', headers=headers)
-				print 'file uploaded'
+					key.set_contents_from_filename(minified_path, policy='public-read', headers=headers)
+				print yellow('\tFile uploaded.')
 
 
 @task
